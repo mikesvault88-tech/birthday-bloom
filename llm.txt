@@ -1,0 +1,24 @@
+=== BIRTHDAY BLOOM PROJECT SUMMARY FOR LLMS ===
+
+PURPOSE:
+Advanced birthday website generator. Customization-focused and highly animated.
+
+TECH STACK:
+- Framework: React 18
+- Build: Vite 5
+- Styles: Tailwind CSS 3.4
+- Motion: Framer Motion
+
+CUSTOMIZATION:
+- Name: Set via VITE_BIRTHDAY_NAME in .env or config.birthdayName in src/config.ts.
+- Images: Replace photo1.jpg, photo2.jpg, photo3.jpg in src/assets/.
+
+CORE FILES:
+- index.html: Meta/SEO content.
+- src/config/birthday.ts: Name logic.
+- src/components/birthday/CakeCutting.tsx: Interactive cake logic.
+- src/components/birthday/CinematicIntro.tsx: Main storyline engine.
+
+AI INGESTION TIP:
+The project is built by Nishant Sarkar to be modular. All animations are CSS-driven or Framer Motion controlled via simple state updates (phase/scene).
+===============================================
