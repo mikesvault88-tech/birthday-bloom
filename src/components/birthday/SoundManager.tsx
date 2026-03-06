@@ -1,9 +1,10 @@
 import { useCallback, useRef, useEffect } from "react";
+import { AUDIO_ASSETS } from "@/config/birthday";
 
 // Free hosted audio URLs from various CDNs
 const AUDIO_URLS = {
   // Background emotional piano (royalty-free loop)
-  bgMusic: "https://cdn.pixabay.com/audio/2024/09/03/audio_73147814c8.mp3",
+  bgMusic: AUDIO_ASSETS.bgmUrl || "https://cdn.pixabay.com/audio/2024/09/03/audio_73147814c8.mp3",
   // Soft typing click
   typeClick: "https://www.soundjay.com/communication/sounds/typing-on-computer-keyboard-01.mp3",
   // Whoosh transition
@@ -40,7 +41,7 @@ class AudioManager {
         };
         document.addEventListener('click', playOnInteraction);
       });
-    } catch {}
+    } catch { }
   }
 
   fadeOutBgMusic(duration = 2000) {
@@ -68,8 +69,8 @@ class AudioManager {
     try {
       const audio = new Audio(AUDIO_URLS[type]);
       audio.volume = volume;
-      audio.play().catch(() => {});
-    } catch {}
+      audio.play().catch(() => { });
+    } catch { }
   }
 
   stop() {

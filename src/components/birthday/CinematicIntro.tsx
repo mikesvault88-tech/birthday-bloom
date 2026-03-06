@@ -4,6 +4,7 @@ import { useConfetti } from "./Confetti";
 import { Balloons } from "./Balloons";
 import { Sparkles } from "./Sparkles";
 import { KineticText } from "./KineticText";
+import { TypeWriter } from "./TypeWriter";
 import { FakeChatScene } from "./FakeChatScene";
 import { HeartProgression } from "./HeartProgression";
 import { useSoundManager } from "./SoundManager";
@@ -245,10 +246,11 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
               style={(storyLineStyles[i] || storyLineStyles[0]).style}
             >
               {storyLine >= i && (
-                <KineticText
+                <TypeWriter
                   text={line}
-                  animation={storyAnimations[i] || "stagger-up"}
+                  speed={70}
                   delay={i === storyLine ? 300 : 0}
+                  cursor={storyLine === i}
                 />
               )}
             </p>
@@ -308,11 +310,11 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
               <div className="text-5xl md:text-7xl mb-4 animate-cake-glow">🎂</div>
               <h1 className="font-display text-5xl md:text-7xl lg:text-9xl font-black mb-4">
                 <span className="bg-gradient-to-r from-[hsl(330,85%,60%)] via-[hsl(45,100%,65%)] to-[hsl(200,80%,60%)] bg-clip-text text-transparent animate-gradient-shift">
-                  <KineticText text="Happy Birthday" animation="zoom-in" delay={200} />
+                  <TypeWriter text="Happy Birthday" speed={90} delay={200} cursor={false} />
                 </span>
               </h1>
               <h2 className="font-display text-6xl md:text-8xl lg:text-[10rem] font-black text-foreground animate-glow-pulse mt-4">
-                <KineticText text={`${BIRTHDAY_NAME}!`} animation="pop-out" delay={800} />
+                <TypeWriter text={`${BIRTHDAY_NAME}!`} speed={120} delay={1800} cursor={false} />
               </h2>
               <div className="text-4xl md:text-6xl mt-8 space-x-2">
                 {["🎈", "🎉", "🎊", "🎁", "🥳", "🎈"].map((e, i) => (
@@ -343,10 +345,11 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
                       }`}
                     style={{ textShadow: i === 0 ? "none" : "0 0 40px hsl(330 85% 60% / 0.15)" }}
                   >
-                    <KineticText
+                    <TypeWriter
                       text={line}
-                      animation={finalLineAnimations[i] || "stagger-up"}
+                      speed={65}
                       delay={i === finalLineIndex ? 400 : 0}
+                      cursor={finalLineIndex === i}
                     />
                   </p>
                 ))}

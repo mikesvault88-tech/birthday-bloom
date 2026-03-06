@@ -7,15 +7,28 @@ import { config } from "../config";
  * 2. Static Config Fallback (config.birthdayName)
  */
 
-const envName = import.meta.env.VITE_BIRTHDAY_NAME;
-const envPhoto1 = import.meta.env.VITE_PHOTO_1;
-const envPhoto2 = import.meta.env.VITE_PHOTO_2;
-const envPhoto3 = import.meta.env.VITE_PHOTO_3;
+// Strict ENV Parser to reject Vercel glitches like "undefined" or "null" strings
+const parseEnvStr = (val: any): string | null => {
+    if (!val) return null;
+    const str = String(val).trim();
+    if (str === "" || str === "null" || str === "undefined") return null;
+    return str;
+};
 
-export const BIRTHDAY_NAME = (envName && envName !== "") ? envName : (config.birthdayName || "YOU");
+const envName = parseEnvStr(import.meta.env.VITE_BIRTHDAY_NAME);
+const envPhoto1 = parseEnvStr(import.meta.env.VITE_PHOTO_1);
+const envPhoto2 = parseEnvStr(import.meta.env.VITE_PHOTO_2);
+const envPhoto3 = parseEnvStr(import.meta.env.VITE_PHOTO_3);
+const envBgm = parseEnvStr(import.meta.env.VITE_BGM_URL);
+
+export const BIRTHDAY_NAME = envName ? envName : (config.birthdayName || "YOU");
 
 export const PHOTO_ASSETS = {
-    photo1: (envPhoto1 && envPhoto1 !== "") ? envPhoto1 : null,
-    photo2: (envPhoto2 && envPhoto2 !== "") ? envPhoto2 : null,
-    photo3: (envPhoto3 && envPhoto3 !== "") ? envPhoto3 : null,
+    photo1: envPhoto1,
+    photo2: envPhoto2,
+    photo3: envPhoto3,
+};
+
+export const AUDIO_ASSETS = {
+    bgmUrl: envBgm,
 };

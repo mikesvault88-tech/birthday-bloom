@@ -5,9 +5,9 @@ import photo2Default from "@/assets/photo-2.jpg";
 import photo3Default from "@/assets/photo-3.jpg";
 
 const photos = [
-  { src: PHOTO_ASSETS.photo1 || photo1Default, caption: "Beautiful moments together 💖", key: "p1" },
-  { src: PHOTO_ASSETS.photo2 || photo2Default, caption: "Memories that last forever ✨", key: "p2" },
-  { src: PHOTO_ASSETS.photo3 || photo3Default, caption: "Smiles that light up the world 🌟", key: "p3" },
+  { src: PHOTO_ASSETS.photo1 || photo1Default, fallback: photo1Default, caption: "Beautiful moments together 💖", key: "p1" },
+  { src: PHOTO_ASSETS.photo2 || photo2Default, fallback: photo2Default, caption: "Memories that last forever ✨", key: "p2" },
+  { src: PHOTO_ASSETS.photo3 || photo3Default, fallback: photo3Default, caption: "Smiles that light up the world 🌟", key: "p3" },
 ].filter(p => p.src !== null);
 
 export const PhotoGallery = () => {
@@ -68,6 +68,9 @@ export const PhotoGallery = () => {
                 <img
                   src={photo.src}
                   alt={photo.caption}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = photo.fallback;
+                  }}
                   className="w-full h-[300px] md:h-[450px] object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
@@ -114,6 +117,9 @@ export const PhotoGallery = () => {
               <img
                 src={photo.src}
                 alt={photo.caption}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = photo.fallback;
+                }}
                 className="w-full h-24 md:h-32 object-cover transition-transform duration-500 group-hover/thumb:scale-110"
                 loading="lazy"
               />
@@ -132,7 +138,10 @@ export const PhotoGallery = () => {
             <img
               src={photos[lightbox].src}
               alt={photos[lightbox].caption}
-              className="w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = photos[lightbox].fallback;
+              }}
+              className="w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl"
               style={{ boxShadow: "0 0 80px hsl(var(--primary) / 0.3)" }}
             />
             <p className="text-center mt-4 font-display text-xl text-foreground/90 italic">

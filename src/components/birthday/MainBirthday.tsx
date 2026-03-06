@@ -6,8 +6,10 @@ import { Sparkles } from "./Sparkles";
 import { PhotoGallery } from "./PhotoGallery";
 import { HeartProgression } from "./HeartProgression";
 import { KineticText } from "./KineticText";
+import { TypeWriter } from "./TypeWriter";
 import { useSoundManager } from "./SoundManager";
 import { CakeCutting } from "./CakeCutting";
+import { HeartTree } from "./HeartTree";
 
 export const MainBirthday = () => {
   const [visible, setVisible] = useState(false);
@@ -85,12 +87,12 @@ export const MainBirthday = () => {
 
         <h1 className={`font-display text-4xl md:text-7xl lg:text-8xl font-black mb-4 transition-all duration-1000 delay-300 ${heroRevealed ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}>
           <span className="bg-gradient-to-r from-[hsl(330,85%,65%)] via-[hsl(45,100%,75%)] to-[hsl(200,80%,70%)] bg-clip-text text-transparent animate-gradient-shift drop-shadow-[0_4px_25px_rgba(255,255,255,0.4)]">
-            <KineticText text="Happy Birthday" animation="zoom-in" delay={500} />
+            <TypeWriter text="Happy Birthday" speed={90} delay={500} cursor={false} />
           </span>
         </h1>
 
         <h2 className={`font-display text-6xl md:text-9xl lg:text-[10rem] font-black text-foreground animate-glow-pulse transition-all duration-1000 ${showName ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}>
-          <KineticText text={`${BIRTHDAY_NAME}!`} animation="pop-out" delay={1200} />
+          <TypeWriter text={`${BIRTHDAY_NAME}!`} speed={120} delay={1200} cursor={false} />
         </h2>
 
         <div className={`text-4xl md:text-5xl mt-8 space-x-3 transition-all duration-700 ${showEmojis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
@@ -107,7 +109,7 @@ export const MainBirthday = () => {
       {/* Message Card */}
       <section className="relative z-20 flex justify-center px-4 pb-20">
         <div
-          className="max-w-2xl w-full rounded-3xl p-8 md:p-12 backdrop-blur-lg border border-[hsl(330,85%,60%,0.2)] shadow-2xl hover:border-[hsl(330,85%,60%,0.4)] transition-colors duration-500"
+          className="max-w-2xl w-full rounded-3xl p-8 md:p-12 backdrop-blur-lg border border-[hsl(330,85%,60%,0.2)] shadow-2xl hover:border-[hsl(330,85%,60%,0.4)] transition-colors duration-500 overflow-hidden"
           style={{
             background: "linear-gradient(135deg, hsl(280, 40%, 15%, 0.8), hsl(330, 40%, 12%, 0.8))",
             boxShadow: "0 0 60px hsl(330, 85%, 60%, 0.15), 0 0 120px hsl(270, 60%, 55%, 0.1)",
@@ -115,14 +117,14 @@ export const MainBirthday = () => {
         >
           <div className="text-5xl text-center mb-6 animate-bounce">💌</div>
           <h3 className="font-display text-2xl md:text-3xl font-bold text-center mb-6 bg-gradient-to-r from-[hsl(330,85%,70%)] to-[hsl(45,100%,70%)] bg-clip-text text-transparent drop-shadow-sm">
-            A Birthday Message for You
+            <TypeWriter text="A Birthday Message for You" speed={50} cursor={false} />
           </h3>
-          <div className="space-y-4 text-center text-lg md:text-xl text-foreground/90 leading-relaxed">
-            <p>Dear {BIRTHDAY_NAME},</p>
-            <p>On this special day, I want you to know how truly amazing you are. Your presence lights up every room, and your smile makes the world a brighter place. 🌟</p>
-            <p>May this year bring you everything your heart desires — endless laughter, beautiful moments, and dreams come true. ✨</p>
-            <p className="text-2xl md:text-3xl font-display font-bold bg-gradient-to-r from-[hsl(330,85%,60%)] to-[hsl(45,100%,60%)] bg-clip-text text-transparent pt-4">
-              Happy Birthday! 🎉
+          <div className="space-y-4 text-center text-lg md:text-xl text-foreground/90 leading-relaxed max-w-full break-words">
+            <p><TypeWriter text={`Dear ${BIRTHDAY_NAME},`} speed={45} delay={1500} cursor={false} /></p>
+            <p className="min-h-[4rem] sm:min-h-[3rem]"><TypeWriter text="On this special day, I want you to know how truly amazing you are. Your presence lights up every room, and your smile makes the world a brighter place. 🌟" speed={40} delay={3000} cursor={false} /></p>
+            <p className="min-h-[4rem] sm:min-h-[3rem]"><TypeWriter text="May this year bring you everything your heart desires — endless laughter, beautiful moments, and dreams come true. ✨" speed={40} delay={8500} cursor={false} /></p>
+            <p className="text-2xl md:text-3xl font-display font-bold bg-gradient-to-r from-[hsl(330,85%,60%)] to-[hsl(45,100%,60%)] bg-clip-text text-transparent pt-4 min-h-[3rem]">
+              <TypeWriter text="Happy Birthday! 🎉" speed={60} delay={12500} cursor={true} />
             </p>
           </div>
         </div>
@@ -156,7 +158,7 @@ export const MainBirthday = () => {
       </section>
 
       {/* Interactive buttons */}
-      <section className="relative z-20 flex flex-wrap justify-center gap-4 px-4 pb-20">
+      <section className="relative z-20 flex flex-wrap justify-center gap-4 px-4 pb-10">
         <button
           onClick={() => { fireCannon(); addEmoji(); }}
           className="px-8 py-4 rounded-full text-lg font-bold text-white transition-all duration-300 hover:scale-110 active:scale-95"
@@ -180,12 +182,23 @@ export const MainBirthday = () => {
         </button>
       </section>
 
-      <footer className="relative z-20 text-center py-12 text-muted-foreground">
-        <p className="text-lg">
-          Made with ❤️ for <span className="font-display font-bold text-foreground">{BIRTHDAY_NAME}</span>
+      {/* Grand Finale / Heart Tree Section */}
+      <section className="relative z-20 flex justify-center px-4 pb-20 pt-10">
+        <div className="w-full flex justify-center">
+          <HeartTree delay={500} />
+        </div>
+      </section>
+
+      <footer className="relative z-20 text-center py-12 pb-24 text-muted-foreground bg-gradient-to-t from-black/40 to-transparent">
+        <p className="text-xl md:text-2xl drop-shadow-md">
+          Made with ❤️ for <span className="font-display font-bold text-foreground text-2xl md:text-3xl bg-gradient-to-r from-[hsl(330,85%,70%)] to-[hsl(45,100%,70%)] bg-clip-text text-transparent">{BIRTHDAY_NAME}</span>
         </p>
-        <div className="text-3xl mt-4 space-x-2">
-          <span>🎂</span><span>🎈</span><span>💖</span><span>🎈</span><span>🎂</span>
+        <div className="text-4xl mt-6 space-x-3 drop-shadow-lg">
+          <span className="animate-bounce inline-block" style={{ animationDelay: "0ms" }}>🎂</span>
+          <span className="animate-bounce inline-block" style={{ animationDelay: "150ms" }}>🎈</span>
+          <span className="animate-bounce inline-block" style={{ animationDelay: "300ms" }}>💖</span>
+          <span className="animate-bounce inline-block" style={{ animationDelay: "450ms" }}>🎈</span>
+          <span className="animate-bounce inline-block" style={{ animationDelay: "600ms" }}>🎂</span>
         </div>
       </footer>
     </div>
