@@ -3,7 +3,7 @@ import { config } from "../config";
 /**
  * Customization Controller
  * Priority: 
- * 1. Environment Variable (VITE_BIRTHDAY_NAME)
+ * 1. Environment Variable (Shae)
  * 2. Static Config Fallback (config.birthdayName)
  */
 
