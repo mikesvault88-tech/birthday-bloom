@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { BIRTHDAY_NAME } from "@/config/birthday";
+import { SHAE } from "@/config/birthday";
 import { useConfetti } from "./Confetti";
 import { Balloons } from "./Balloons";
 import { Sparkles } from "./Sparkles";
