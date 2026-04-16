@@ -4,7 +4,7 @@
  */
 export const config = {
     // Method 2: Fallback Name (Only used if VITE_BIRTHDAY_NAME is not set in .env)
-    birthdayName: "YOU",
+    birthdayName: "Shae",
 
     // Method 2: Fallback Photos (Only used if assets/photoX.jpg are missing)
     photos: [
