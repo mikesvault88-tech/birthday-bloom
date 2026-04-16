@@ -1,5 +1,5 @@
+
 import { useState, useEffect, useRef, useCallback } from "react";
-import { SHAE } from "@/config/birthday";
 import { useConfetti } from "./Confetti";
 import { Balloons } from "./Balloons";
 import { Sparkles } from "./Sparkles";
@@ -9,20 +9,15 @@ import { FakeChatScene } from "./FakeChatScene";
 import { HeartProgression } from "./HeartProgression";
 import { useSoundManager } from "./SoundManager";
 
+// Change this to her name!
+const BIRTHDAY_NAME = "Shae"; 
+
 interface CinematicIntroProps {
   onComplete: () => void;
 }
 
 type Scene = "storytelling" | "fake-chat" | "post-chat" | "reveal-sequence" | "done";
 type RevealStep = "dear-name" | "grand-reveal" | "final-message";
-
-const storyAnimations: Array<"zoom-in" | "pop-out" | "stagger-up" | "float" | "wave" | "typewriter-burst"> = [
-  "stagger-up", "float", "wave", "zoom-in",
-];
-
-const postChatAnimations: Array<"zoom-in" | "pop-out" | "stagger-up" | "float" | "wave" | "typewriter-burst"> = [
-  "pop-out", "typewriter-burst", "zoom-in",
-];
 
 export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
   const [scene, setScene] = useState<Scene>("storytelling");
@@ -76,43 +71,35 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
     setTimeout(() => setFlashWhite(false), 300);
   }, []);
 
+  // --- YOUR FINAL ALTERED MESSAGES ---
   const storyLines = [
-    "There's someone I've been thinking about...",
-    "Someone who makes ordinary moments feel extraordinary...",
-    "Someone whose smile lights up the darkest days...",
-    "I could have sent a simple message, a few words...",
+    "I could have sent a simple message, but it seemed boring asf...",
   ];
 
   const postChatLines = [
-    "But you are not just anyone to me...",
-    "You deserve something as special as you are...",
-    "So I stayed up, and I made this... just for you ❤️",
+    "So I stayed up for 3 days straight to make this for you 😁",
   ];
 
   const finalLines = [
     `Dear ${BIRTHDAY_NAME}`,
     "I hope you loved this...",
-    "I hope I made you smile...",
-    "And made our day special ✨",
-    "I wish you a long life filled with happiness...",
-    "And a beautiful future ahead 💖",
+    "Out of all the gifts, I hope this is the one that sticks out...",
+    "The one you’ll truly never forget ✨",
   ];
+  // -------------------------
 
   useEffect(() => () => clearTimers(), [clearTimers]);
 
-  // Phase 1: Storytelling with kinetic text
   useEffect(() => {
     if (scene !== "storytelling") return;
     clearTimers();
     storyLines.forEach((_, i) => {
       addTimer(() => { setStoryLine(i); playType(); }, i * 5000);
     });
-    // Progress heart at line 2
     addTimer(() => setHeartStage(2), 5000);
     addTimer(() => { playWhoosh(); setScene("fake-chat"); }, storyLines.length * 5000);
   }, [scene]);
 
-  // Phase 3: Post-chat
   useEffect(() => {
     if (scene !== "post-chat") return;
     clearTimers();
@@ -130,7 +117,6 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
     }, postChatLines.length * 4500);
   }, [scene]);
 
-  // Phase 4: Reveal
   useEffect(() => {
     if (scene !== "reveal-sequence") return;
     clearTimers();
@@ -175,23 +161,6 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
 
   if (scene === "done") return null;
 
-  const storyLineStyles = [
-    { className: "text-lg md:text-2xl lg:text-3xl italic font-light", style: { color: "hsl(280, 20%, 85%)", textShadow: "0 2px 10px rgba(0,0,0,0.3)" } as React.CSSProperties },
-    { className: "text-xl md:text-3xl lg:text-4xl font-normal", style: { color: "hsl(330, 80%, 85%)", textShadow: "0 2px 15px rgba(0,0,0,0.4)" } as React.CSSProperties },
-    { className: "text-xl md:text-3xl lg:text-[2.5rem] font-semibold", style: { color: "hsl(45, 100%, 80%)", textShadow: "0 2px 20px rgba(0,0,0,0.5)" } as React.CSSProperties },
-    { className: "text-lg md:text-2xl lg:text-3xl font-light", style: { color: "hsl(200, 90%, 85%)", textShadow: "0 2px 10px rgba(0,0,0,0.3)" } as React.CSSProperties },
-  ];
-
-  const postChatStyles = [
-    { className: "text-2xl md:text-4xl lg:text-5xl font-bold", style: { color: "hsl(330, 95%, 75%)", textShadow: "0 4px 20px rgba(0,0,0,0.5)" } as React.CSSProperties },
-    { className: "text-2xl md:text-4xl lg:text-5xl font-extrabold", style: { color: "hsl(45, 100%, 75%)", textShadow: "0 4px 25px rgba(0,0,0,0.5)" } as React.CSSProperties },
-    { className: "text-3xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-[hsl(330,90%,70%)] via-[hsl(45,100%,75%)] to-[hsl(270,70%,70%)] bg-clip-text text-transparent animate-gradient-shift", style: { filter: "drop-shadow(0 4px 15px rgba(0,0,0,0.3))" } as React.CSSProperties },
-  ];
-
-  const finalLineAnimations: Array<"zoom-in" | "pop-out" | "stagger-up" | "float" | "wave" | "typewriter-burst"> = [
-    "pop-out", "stagger-up", "float", "wave", "stagger-up", "zoom-in",
-  ];
-
   return (
     <div
       className={`fixed inset-0 z-40 flex items-center justify-center transition-all duration-1000 animate-bg-shift ${fadeOut ? "opacity-0" : "opacity-100"} ${shaking ? "animate-screen-shake" : ""}`}
@@ -201,25 +170,21 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
           : "linear-gradient(135deg, hsl(280, 60%, 12%) 0%, hsl(300, 45%, 18%) 25%, hsl(330, 55%, 15%) 50%, hsl(270, 55%, 12%) 75%, hsl(280, 60%, 12%) 100%)",
       }}
     >
-      {/* Dark overlay for readability when bg image is active */}
       {getBackground() !== "none" && (
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[3px]" />
       )}
-      {/* White flash overlay */}
       {flashWhite && (
         <div className="fixed inset-0 z-[60] bg-white/20 pointer-events-none animate-flash" />
       )}
 
       <Sparkles count={15} />
 
-      {/* Heart indicator — top corner */}
       {scene !== "fake-chat" && (
         <div className="fixed top-6 right-6 z-50 w-12 h-10 md:w-16 md:h-14 transition-all duration-1000">
           <HeartProgression stage={heartStage} />
         </div>
       )}
 
-      {/* Ring pulse */}
       {ringPulse && (
         <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
           <div className="w-32 h-32 rounded-full border-4 animate-ring-expand" style={{ borderColor: "hsl(330, 85%, 60%)" }} />
@@ -228,22 +193,20 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
         </div>
       )}
 
-      {/* Emoji bursts */}
       {emojiBursts.map((b) => (
         <div key={b.id} className="fixed pointer-events-none z-50 text-3xl md:text-5xl animate-emoji-burst" style={{ left: `${b.x}%`, top: `${b.y}%` }}>
           {b.emoji}
         </div>
       ))}
 
-      {/* Storytelling with kinetic text */}
       {scene === "storytelling" && (
         <div className="relative z-50 text-center max-w-3xl mx-auto px-6">
           <div className="text-3xl mb-8 animate-pulse opacity-60">💭</div>
           {storyLines.map((line, i) => (
             <p
               key={i}
-              className={`font-display leading-relaxed mb-6 transition-all duration-1000 ${(storyLine >= i) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-              style={(storyLineStyles[i] || storyLineStyles[0]).style}
+              className={`font-display leading-relaxed mb-6 transition-all duration-1000 text-xl md:text-3xl lg:text-4xl font-normal ${(storyLine >= i) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+              style={{ color: "hsl(330, 80%, 85%)", textShadow: "0 2px 15px rgba(0,0,0,0.4)" }}
             >
               {storyLine >= i && (
                 <TypeWriter
@@ -258,25 +221,21 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
         </div>
       )}
 
-      {/* Fake Chat */}
       {scene === "fake-chat" && <FakeChatScene onComplete={handleChatComplete} />}
 
-      {/* Post-chat */}
       {scene === "post-chat" && (
         <div className="text-center max-w-3xl mx-auto px-6 animate-slide-up-fade">
-          {/* Heart stage 3 indicator */}
           <div className="mb-8 flex justify-center">
             <div className="w-20 h-18">
               <HeartProgression stage={3} />
             </div>
           </div>
           {postChatLines.slice(0, postChatLine + 1).map((line, i) => {
-            const s = postChatStyles[i] || postChatStyles[0];
             return (
-              <p key={i} className={`font-display leading-relaxed mb-6 ${s.className}`} style={s.style}>
+              <p key={i} className="font-display leading-relaxed mb-6 text-3xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-[hsl(330,90%,70%)] via-[hsl(45,100%,75%)] to-[hsl(270,70%,70%)] bg-clip-text text-transparent animate-gradient-shift" style={{ filter: "drop-shadow(0 4px 15px rgba(0,0,0,0.3))" }}>
                 <KineticText
                   text={line}
-                  animation={postChatAnimations[i] || "pop-out"}
+                  animation={"pop-out"}
                   delay={i === postChatLine ? 300 : 0}
                 />
               </p>
@@ -285,7 +244,6 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
         </div>
       )}
 
-      {/* Reveal Sequence */}
       {scene === "reveal-sequence" && (
         <>
           {revealStep === "dear-name" && (
@@ -303,7 +261,6 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
           {revealStep === "grand-reveal" && (
             <div className="text-center animate-bounce-in">
               <Balloons count={20} />
-              {/* Full heart with pop reveal */}
               <div className="flex justify-center mb-6">
                 <HeartProgression stage={4} />
               </div>
@@ -316,26 +273,12 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
               <h2 className="font-display text-6xl md:text-8xl lg:text-[10rem] font-black text-foreground animate-glow-pulse mt-4">
                 <TypeWriter text={`${BIRTHDAY_NAME}!`} speed={120} delay={1800} cursor={false} />
               </h2>
-              <div className="text-4xl md:text-6xl mt-8 space-x-2">
-                {["🎈", "🎉", "🎊", "🎁", "🥳", "🎈"].map((e, i) => (
-                  <span key={i} className="inline-block" style={{ animation: `kinetic-pop 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) ${1200 + i * 150}ms both` }}>
-                    {e}
-                  </span>
-                ))}
-              </div>
             </div>
           )}
 
           {revealStep === "final-message" && (
             <div className="text-center max-w-3xl mx-auto px-6">
               <div className="relative">
-                <div
-                  className="absolute inset-0 -z-10 rounded-full blur-3xl opacity-20 animate-pulse"
-                  style={{
-                    background: "radial-gradient(circle, hsl(330, 85%, 60%), hsl(270, 60%, 55%), transparent)",
-                    width: "120%", height: "120%", left: "-10%", top: "-10%",
-                  }}
-                />
                 {finalLines.slice(0, finalLineIndex + 1).map((line, i) => (
                   <p
                     key={i}
@@ -343,7 +286,6 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
                       ? "text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-[hsl(45,100%,65%)] to-[hsl(330,85%,65%)] bg-clip-text text-transparent"
                       : "text-xl md:text-3xl lg:text-4xl text-foreground/90"
                       }`}
-                    style={{ textShadow: i === 0 ? "none" : "0 0 40px hsl(330 85% 60% / 0.15)" }}
                   >
                     <TypeWriter
                       text={line}
@@ -354,9 +296,6 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
                   </p>
                 ))}
               </div>
-              <div className="text-3xl mt-8 space-x-3 animate-pulse">
-                <span>💖</span><span>✨</span><span>🌟</span><span>✨</span><span>💖</span>
-              </div>
             </div>
           )}
         </>
@@ -364,3 +303,4 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
     </div>
   );
 };
+
